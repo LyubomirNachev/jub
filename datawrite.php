@@ -14,7 +14,7 @@ $conn = mysqli_connect('localhost', 'root', '', '60 metra');
 $query="insert into `test 60 metra` values ("; 
 foreach($argv as $value)
 {
-  $query.="$value ";
+  $query.="$value, ";
 }
 $query.=")";
 mysqli_query($conn,$query);

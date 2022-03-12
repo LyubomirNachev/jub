@@ -22,6 +22,17 @@
       border-left:none;
       background-color: rgba(0, 0, 0, 0);
    }
+   .rows{
+      background-image:url('./dancing_alien.gif');
+      height: 380px;
+      border: 2px solid black;
+      display:block;
+      margin-top: 50px;
+      background-color: white;
+   }
+   svg{
+      margin:30px;
+   }
 </style>
 </head>
 <body background="space_background.png">
@@ -45,11 +56,11 @@ mysqli_query($conn,"delete from `test 60 metra` order by # desc limit 1");
 */
 ?>
 
-<!-- <script>
+<script>
 setTimeout(function(){
    window.location.reload(1);
-}, 1000);
-</script> -->
+}, 5000);
+</script>
 
 
 <h1 style="color:#FFFFFF;">Sensor hub data</h1>
@@ -68,7 +79,20 @@ $colz=[
    "Temperature",
    "Carbon Dioxide(CO2)"
    ];
-foreach($colz as $col){
+$colz2=[
+   "id",
+   "time",
+   "Methane(CH4)",
+   "Benzene(C6H6)",
+   "Smoke",
+   "Carbon Monoxide(CO)",
+   "Hydrogen(H2)",
+   "Flammable gases",
+   "Humidity",
+   "Temperature",
+   "Carbon Dioxide(CO2)"
+   ];
+foreach($colz2 as $col){
    echo "<td>$col</td>";
 }
 ?>
@@ -78,7 +102,7 @@ foreach($colz as $col){
       while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC))
       { 
      echo "<tr>"; 
-     foreach($colz as $col){
+     foreach($colz2 as $col){
       echo "<td>".$row[$col]."</td>";
      }
      echo "</tr>"; 
@@ -87,17 +111,17 @@ foreach($colz as $col){
 </table>
 </div>
 <script>
-   function func(operaciq)
-{
+   function func(operaciq){
     for(i=1;i<=9;i++){
         document.getElementById("div"+i).style.display='none';
         document.getElementById("button"+i).style.borderRight = "2px solid black";
     }
     document.getElementById("div"+operaciq).style.display='block';
     document.getElementById("button"+operaciq).style.borderRight = "none";
+    sessionStorage.setItem("operaciq", operaciq);
    }
 </script>
-<div style="background-image:url('./dancing_alien.gif');height: 350px;border: 2px solid black;display:block; margin-top: 10%;background-color: white;" class="rows">
+<div class="rows">
                 <div style="display: inline;width: 20%;float: left; height:100%; " class="column">
                     <?php 
                     foreach($colz as $k => $col){
@@ -129,41 +153,22 @@ if($divn==1){
    echo '<div id="div'.$divn.'" style="display: none;">';
 }
 ?>
-<svg  width="500" height="300" style="background-color:white;height: 100%;width: 100%;">
-<!-- <line x1="10" y1="0" x2="210" y2="0" style="stroke:rgb(80,80,80);stroke-width:2" />
-<line x1="10" y1="30" x2="210" y2="30" style="stroke:rgb(80,80,80);stroke-width:2" />
-<line x1="10" y1="60" x2="210" y2="60" style="stroke:rgb(80,80,80);stroke-width:2" />
-<line x1="10" y1="90" x2="210" y2="90" style="stroke:rgb(0,0,0);stroke-width:2" />
-
-<text x="0" y="105" fill="blue">0</text>
-<text x="0" y="75" fill="blue">1</text>
-<text x="0" y="45" fill="blue">2</text>
-<text x="0" y="15" fill="blue">3</text>
-
-<line x1="10" y1="0" x2="10" y2="90" style="stroke:rgb(0,0,0);stroke-width:2" />
-<line x1="50" y1="0" x2="50" y2="90" style="stroke:rgb(80,80,80);stroke-width:2" />
-<line x1="90" y1="0" x2="90" y2="90" style="stroke:rgb(80,80,80);stroke-width:2" />
-<line x1="130" y1="0" x2="130" y2="90" style="stroke:rgb(80,80,80);stroke-width:2" />
-<line x1="170" y1="0" x2="170" y2="90" style="stroke:rgb(80,80,80);stroke-width:2" />
-<line x1="210" y1="0" x2="210" y2="90" style="stroke:rgb(80,80,80);stroke-width:2" />
-
-<text x="45" y="105" fill="blue">1</text>
-<text x="85" y="105" fill="blue">2</text>
-<text x="125" y="105" fill="blue">3</text>
-<text x="165" y="105" fill="blue">4</text>
-<text x="205" y="105" fill="blue">5</text>
-
-<line x1="10" y1="0" x2="20" y2="40" style="stroke:rgb(255,0,0);stroke-width:2" />
-<line x1="20" y1="40" x2="30" y2="20" style="stroke:rgb(255,0,0);stroke-width:2" />
-<line x1="30" y1="20" x2="40" y2="70" style="stroke:rgb(255,0,0);stroke-width:2" />-->
+<svg  width="500" height="300" style="background-color:white;">
 <?php
-      $ots=50;
+      $ots=70;
       $w=500;
       $h=300;
       $rs = mysqli_query($conn,"SELECT * FROM `test 60 metra`");
       $mnr=mysqli_num_rows($rs)-1;
       //echo "<h1>$max</h1>";
       $fr=0;
+
+      for($i=0;$i<=5;$i++){
+         echo '<text x="10" y="'.($h-$ots-$i*($h-$ots)/5+10*($i==5)).'" fill="blue">'.round($i*$max/5, 2).'</text>';
+         echo '<line x1="'.$ots.'" y1="'.($h-$ots-$i*($h-$ots)/5).'" x2="'.$w.'" y2="'.($h-$ots-$i*($h-$ots)/5).'" style="stroke:rgb(80,80,80);stroke-width:1" />';
+         echo '<line x1="'.($ots+$i*($w-$ots)/5).'" y1="0" x2="'.($ots+$i*($w-$ots)/5).'" y2="'.($h-$ots).'" style="stroke:rgb(0,0,0);stroke-width:1" />';
+      }
+
       while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)){
          //echo "<h2>$mnr</h2>";
       if($fr>0){ 
@@ -172,6 +177,7 @@ if($divn==1){
       $lar=$row;
       $fr++;
       }
+
       echo '<line x1="'.$ots.'" y1="'.($h-$ots).'" x2="'.$w.'" y2="'.($h-$ots).'" style="stroke:rgb(0,0,0);stroke-width:2" />';
       echo '<line x1="'.$ots.'" y1="0" x2="'.$ots.'" y2="'.($h-$ots).'" style="stroke:rgb(0,0,0);stroke-width:2" />';
 ?>
@@ -182,7 +188,11 @@ $divn++;
 } ?>
 </div>
 </div>
-
+<script>
+   if(sessionStorage.getItem("operaciq")!==null){
+   func(sessionStorage.getItem("operaciq"));
+   }
+</script>
 </body>
 </html>
 

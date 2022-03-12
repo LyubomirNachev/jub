@@ -1,15 +1,24 @@
+
 <?php
-""
 $conn = mysqli_connect('localhost', 'root', '', '60 metra');
-$query="insert into `test 60 metra` (`Humidity`,`Temperature`,`Hydrogen(H2)`,`Methane(CH4)`,`Smoke`,`Alchohol`,`Carbon Dioxide(CO2)`,`Carbon Monoxide(CO)`,`Flammable gases`) values ("; 
-foreach($argv as $value)
+$query="insert into `test 60 metra` (`Humidity`,`Temperature`,`Hydrogen(H2)`,`LPG`,`Methane(CH4)`,`Smoke`,`Alchohol`,`Carbon Dioxide(CO2)`,`Carbon Monoxide(CO)`,`Flammable gases`) values ("; 
+
+$r=0;
+foreach($argv as $k => $value)
 {
-  $query.="$value, ";
+    if($r){
+        $query.="$value";
+        if($k<count($argv)-1){
+            $query.=", ";
+        }
+    }
+    $r=1;
 }
 $query.=")";
+echo $query;
 mysqli_query($conn,$query);
-$nr = mysql_num_rows(mysqli_query($conn,"SELECT * FROM `test 60 metra`"));
-if($nr>100){
-mysqli_query($conn,"delete from `test 60 metra` where id=1");
+$nr = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM `test 60 metra`"));
+if($nr>20){
+mysqli_query($conn,"delete from `test 60 metra` ORDER BY `time` ASC limit 1");
 }
 ?>

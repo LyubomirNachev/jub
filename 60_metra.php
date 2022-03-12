@@ -15,7 +15,7 @@
    }
    .btnz{
       margin: 0px;
-      height: 11.1111111%;
+      height: 10%;
       width: 100%;
       display: block;
       border-top: none;
@@ -63,34 +63,35 @@ setTimeout(function(){
 </script>
 
 
-<h1 style="color:#FFFFFF;">Sensor hub data</h1>
+<h1 style="color:#FFFFFF;"><img style="height:24pt" src="dancing_alien2.gif" /> Sensor hub data <img style="height:24pt" src="dancing_alien2.gif" /> </h1>
 <div>
 <table>
 <tr> 
 <?php
 $colz=[
-   "Methane(CH4)",
-   "Benzene(C6H6)",
-   "Smoke",
-   "Carbon Monoxide(CO)",
-   "Hydrogen(H2)",
-   "Flammable gases",
    "Humidity",
    "Temperature",
-   "Carbon Dioxide(CO2)"
+   "Hydrogen(H2)",
+   "LPG",
+   "Methane(CH4)",
+   "Smoke",
+   "Alchohol",
+   "Carbon Dioxide(CO2)",
+   "Carbon Monoxide(CO)",
+   "Flammable gases"
    ];
 $colz2=[
-   "id",
    "time",
-   "Methane(CH4)",
-   "Benzene(C6H6)",
-   "Smoke",
-   "Carbon Monoxide(CO)",
-   "Hydrogen(H2)",
-   "Flammable gases",
    "Humidity",
    "Temperature",
-   "Carbon Dioxide(CO2)"
+   "Hydrogen(H2)",
+   "LPG",
+   "Methane(CH4)",
+   "Smoke",
+   "Alchohol",
+   "Carbon Dioxide(CO2)",
+   "Carbon Monoxide(CO)",
+   "Flammable gases"
    ];
 foreach($colz2 as $col){
    echo "<td>$col</td>";
@@ -112,7 +113,7 @@ foreach($colz2 as $col){
 </div>
 <script>
    function func(operaciq){
-    for(i=1;i<=9;i++){
+   for(i=1;i<=9;i++){
         document.getElementById("div"+i).style.display='none';
         document.getElementById("button"+i).style.borderRight = "2px solid black";
     }
@@ -146,6 +147,10 @@ while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC))
 if($row[$col]>$max){
    $max=$row[$col];
 }
+}
+$max+=$max/10;
+if($max==0){
+   $max=1;
 }   
 if($divn==1){
    echo '<div id="div1" style="display: block;">';

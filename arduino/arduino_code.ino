@@ -46,8 +46,6 @@ void setup()
 
 void loop()
 {
-  Serial.println();
-
   int chk = DHT11.read(DHT11PIN);
   int sensor_MQ7 = A4;
   int sensor_MQ3 = A2;
@@ -80,7 +78,7 @@ void loop()
   Serial.print(analogRead(sensor_MQ7));
   Serial.print(" ");
   Serial.print(analogRead(sensor_MQ9));
-  Serial.print(" \n");
+  Serial.print("\n");
 
   delay(5000);
 

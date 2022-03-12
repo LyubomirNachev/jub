@@ -1,7 +1,7 @@
 <?php
 ""
 $conn = mysqli_connect('localhost', 'root', '', '60 metra');
-$query="insert into `test 60 metra` (`Methane(CH4)`, `Benzene(C6H6)`, `Smoke`, `Carbon Monoxide(CO)`, `Hydrogen(H2)`, `Flammable gases`, `Humidity`, `Temperature`, `Carbon Dioxide(CO2)`) values ("; 
+$query="insert into `test 60 metra` (`Humidity`,`Temperature`,`Hydrogen(H2)`,`Methane(CH4)`,`Smoke`,`Alchohol`,`Carbon Dioxide(CO2)`,`Carbon Monoxide(CO)`,`Flammable gases`) values ("; 
 foreach($argv as $value)
 {
   $query.="$value, ";

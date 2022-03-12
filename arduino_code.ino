@@ -20,7 +20,7 @@ MQ135 gasSensor = MQ135(sensor_MQ135);
 #define         READ_SAMPLE_TIMES            (5)     
 #define         GAS_H2                       (1)
 #define         GAS_LPG                      (2)
-#define         GAS_CO                       (3)
+#define         GAS_Methan                   (3)
 #define         GAS_SMOKE                    (4)
 float           H2Curve[3]  =  {2.3, 0.93,-1.44};  
 float           LPGCurve[3]  =  {2.3,0.21,-0.47};                                               
@@ -49,56 +49,40 @@ void loop()
   Serial.println();
 
   int chk = DHT11.read(DHT11PIN);
-  int sensor_MQ7 = A1;
+  int sensor_MQ7 = A4;
   int sensor_MQ3 = A2;
-  int sensor_MQ9 = A4;
-  
-  
-  Serial.print("Humidity (%): ");
-  Serial.println((float)DHT11.humidity, 4);
-  
-  Serial.print("Temperature (C): ");
-  Serial.println((float)DHT11.temperature, 4);
-
-  Serial.print("H2 (ppm): "); 
-  Serial.println(MQGetGasPercentage(MQRead(MQ8_PIN)/Ro,GAS_H2) );
-  
-  Serial.print("LPG:"); 
-  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_LPG) );
-  Serial.print( "ppm" );
-  Serial.print("    ");   
-  Serial.print("CO:"); 
-  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_CO) );
-  Serial.print( "ppm" );
-  Serial.print("    ");   
-  Serial.print("SMOKE:"); 
-  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_SMOKE) );
-  Serial.print( "ppm" );
-  Serial.print("\n");
-
-
- // Serial.print("Carbon Monoxide: ");
- // Serial.println(analogRead(sensor_MQ7));
-
-    int sensorValue = analogRead(sensor_MQ3);
-    sensor_volt=(float)sensorValue/1024*5.0;
-    RS_gas = ((5.0 * R2)/sensor_volt) - R2; 
-    R0 = 16000;
-    ratio = RS_gas/R0;
-    double x = 0.4*ratio;   
-    BAC = pow(x,-1.431);
-    Serial.print("BAC = ");
-    Serial.print(BAC*0.0001);
-    Serial.print(" g/DL \n");
-
-//  Serial.print("Some value: ");
- // Serial.println(analogRead(sensor_MQ9));
-
+  int sensor_MQ9 = A1;
   float ppm = gasSensor.getPPM();
-  Serial.print("Air quality (ppm): ");
-  Serial.println(ppm);
+  int sensorValue = analogRead(sensor_MQ3);
+  sensor_volt=(float)sensorValue/1024*5.0;
+  RS_gas = ((5.0 * R2)/sensor_volt) - R2; 
+  R0 = 16000;
+  ratio = RS_gas/R0;
+  double x = 0.4*ratio;   
+  BAC = pow(x,-1.431);
+  
+  Serial.print((float)DHT11.humidity, 4 );
+  Serial.print(" ");
+  Serial.print((float)DHT11.temperature, 4 );
+  Serial.print(" ");
+  Serial.print(MQGetGasPercentage(MQRead(MQ8_PIN)/Ro,GAS_H2 ) );
+  Serial.print(" ");
+  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_LPG ) );
+  Serial.print(" ");
+  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_Methan ) );
+  Serial.print(" ");
+  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_SMOKE ) );
+  Serial.print(" ");
+  Serial.print(BAC*0.0001 );
+  Serial.print(" ");
+  Serial.print(ppm );
+  Serial.print(" ");
+  Serial.print(analogRead(sensor_MQ7));
+  Serial.print(" ");
+  Serial.print(analogRead(sensor_MQ9));
+  Serial.print(" \n");
 
-  delay(2000);
+  delay(5000);
 
 }
 //MQ8
@@ -181,7 +165,7 @@ int MQGetGasPercentage2(float rs2_Ro2_ratio, int gas_id2)
 {
   if ( gas_id2 == GAS_LPG ) {
      return MQGetPercentage2(rs2_Ro2_ratio,LPGCurve);
-  } else if ( gas_id2 == GAS_CO ) {
+  } else if ( gas_id2 == GAS_Methan ) {
      return MQGetPercentage2(rs2_Ro2_ratio,COCurve);
   } else if ( gas_id2 == GAS_SMOKE ) {
      return MQGetPercentage2(rs2_Ro2_ratio,SmokeCurve);

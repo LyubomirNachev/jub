@@ -1,6 +1,12 @@
 #include <dht11.h>
+#include <MQ135.h>
 #define DHT11PIN 4
+
 dht11 DHT11;
+
+const int sensor_MQ135 = A5;
+MQ135 gasSensor = MQ135(sensor_MQ135);
+
 #define         MQ8_PIN                      (3)    
 #define         RL_VALUE                     (10)    
 #define         RO_CLEAN_AIR_FACTOR          (9.21)  
@@ -9,8 +15,7 @@ dht11 DHT11;
 #define         RL_VALUE2                     (5)     
 #define         RO_CLEAN_AIR_FACTOR2          (9.83) 
 #define         CALIBARAION_SAMPLE_TIMES     (50)    
-#define       
-CALIBRATION_SAMPLE_INTERVAL  (500)   
+#define         CALIBRATION_SAMPLE_INTERVAL  (500)   
 #define         READ_SAMPLE_INTERVAL         (50)    
 #define         READ_SAMPLE_TIMES            (5)     
 #define         GAS_H2                       (1)
@@ -23,6 +28,12 @@ float           COCurve[3]  =  {2.3,0.72,-0.34};
 float           SmokeCurve[3] ={2.3,0.53,-0.44};   
 float           Ro           =  10;
 float           Ro2          =  10;
+float           sensor_volt;
+float           RS_gas; 
+float           R0 =84;
+float           ratio;
+float           BAC;
+int             R2 = 2000;
               
 void setup()
 {
@@ -41,6 +52,8 @@ void loop()
   int sensor_MQ7 = A1;
   int sensor_MQ3 = A2;
   int sensor_MQ9 = A4;
+  
+  
   Serial.print("Humidity (%): ");
   Serial.println((float)DHT11.humidity, 4);
   
@@ -64,15 +77,26 @@ void loop()
   Serial.print("\n");
 
 
-  Serial.print("Carbon Monoxide: ");
-  Serial.println(analogRead(sensor_MQ7));
+ // Serial.print("Carbon Monoxide: ");
+ // Serial.println(analogRead(sensor_MQ7));
 
-  Serial.print("Alchohol value: ");
-  Serial.println(analogRead(sensor_MQ3));
+    int sensorValue = analogRead(sensor_MQ3);
+    sensor_volt=(float)sensorValue/1024*5.0;
+    RS_gas = ((5.0 * R2)/sensor_volt) - R2; 
+    R0 = 16000;
+    ratio = RS_gas/R0;
+    double x = 0.4*ratio;   
+    BAC = pow(x,-1.431);
+    Serial.print("BAC = ");
+    Serial.print(BAC*0.0001);
+    Serial.print(" g/DL \n");
 
-  Serial.print("Some value: ");
-  Serial.println(analogRead(sensor_MQ9));
-  
+//  Serial.print("Some value: ");
+ // Serial.println(analogRead(sensor_MQ9));
+
+  float ppm = gasSensor.getPPM();
+  Serial.print("Air quality (ppm): ");
+  Serial.println(ppm);
 
   delay(2000);
 

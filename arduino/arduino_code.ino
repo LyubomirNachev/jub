@@ -26,7 +26,7 @@ float           H2Curve[3]  =  {2.3, 0.93,-1.44};
 float           LPGCurve[3]  =  {2.3,0.21,-0.47};                                               
 float           COCurve[3]  =  {2.3,0.72,-0.34};
 float           SmokeCurve[3] ={2.3,0.53,-0.44};   
-float           Ro           =  10;
+float           Ro           =  5;
 float           Ro2          =  10;
 float           sensor_volt;
 float           RS_gas; 
@@ -39,6 +39,7 @@ void setup()
 {
   Serial.begin(9600);
   Serial.print("Starting calibration... ");
+  pinMode(8, OUTPUT);
   Ro = MQCalibration(MQ8_PIN); 
   Ro2 = MQCalibration(MQ2_PIN);
   Serial.print("Calibration is done...\n"); 
@@ -65,13 +66,28 @@ void loop()
   Serial.print(" ");
   Serial.print(MQGetGasPercentage(MQRead(MQ8_PIN)/Ro,GAS_H2 ) );
   Serial.print(" ");
-  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_LPG ) );
+  if(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_LPG ) < 0){ 
+    Serial.print("0");
+  }
+  else {
+    Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_LPG ) );
+  }
   Serial.print(" ");
-  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_Methan ) );
+  if(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_Methan ) < 0){ 
+    Serial.print("0");
+  }
+  else {
+    Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_Methan ));
+  }
   Serial.print(" ");
-  Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_SMOKE ) );
+  if(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_SMOKE ) < 0){ 
+    Serial.print("0");
+  }
+  else {
+    Serial.print(MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_SMOKE ));
+  }
   Serial.print(" ");
-  Serial.print(BAC*0.0001 );
+  Serial.print(BAC );
   Serial.print(" ");
   Serial.print(ppm );
   Serial.print(" ");
@@ -80,7 +96,14 @@ void loop()
   Serial.print(analogRead(sensor_MQ9));
   Serial.print("\n");
 
-  delay(5000);
+  delay(1000);
+
+  if (MQGetGasPercentage(MQRead(MQ8_PIN)/Ro,GAS_H2)  > 30 || analogRead(sensor_MQ7)  > 500 || analogRead(sensor_MQ9)  > 500 || ppm > 100 || BAC > 150 || (float)DHT11.humidity > 60 ||  (float)DHT11.temperature > 30 ||  MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_LPG ) > 0 || MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_Methan ) > 0 || MQGetGasPercentage2(MQRead(MQ2_PIN)/Ro2,GAS_SMOKE ) > 0){
+    digitalWrite(8, HIGH);
+    delay(100);
+    digitalWrite(8, LOW); 
+    delay(10);
+  }
 
 }
 //MQ8

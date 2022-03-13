@@ -6,3 +6,4 @@
 
 ## Потребителски интерфейс
 ![mejdina na potrebitelq](/readme_pics/ui.png)
+jub jub jub.

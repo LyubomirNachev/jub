@@ -6,4 +6,7 @@
 
 ## Потребителски интерфейс
 ![mejdina na potrebitelq](/readme_pics/ui.png)
+
+## Принципна електрическа схема
+![izobrajenie na shematikata](/readme_pics/schematic_image.png)
 jub jub jub.

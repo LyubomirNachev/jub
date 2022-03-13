@@ -24,6 +24,8 @@
    }
    .rows{
       background-image:url('./dancing_alien.gif');
+      background-repeat: no-repeat;
+      background-size: 20% 100%;
       height: 380px;
       border: 2px solid black;
       display:block;
@@ -80,6 +82,18 @@ $colz=[
    "Carbon Monoxide(CO)",
    "Flammable gases"
    ];
+   $maxes=[
+       60,
+       30,
+       300,
+       0,
+       0,
+       0,
+       150,
+       100,
+       500,
+       500
+   ];
 $colz2=[
    "time",
    "Humidity",
@@ -103,9 +117,17 @@ foreach($colz2 as $col){
       while($row = mysqli_fetch_array($rs, MYSQLI_ASSOC))
       { 
      echo "<tr>"; 
-     foreach($colz2 as $col){
-      echo "<td>".$row[$col]."</td>";
-     }
+     foreach($colz2 as $k => $col){
+        if($k==0){
+         echo "<td>".$row[$col]."</td>";
+           continue;
+        }
+       if($row[$col]>$maxes[$k-1]){
+         echo "<td style='background-color:red'>".$row[$col]."</td>";
+       }else{
+         echo "<td>".$row[$col]."</td>";
+       }
+      }
      echo "</tr>"; 
      }      
    ?>

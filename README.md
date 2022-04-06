@@ -42,11 +42,11 @@
 * [MySQL](https://www.mysql.com/) - SQL система за управление на бази данни.
 * [HTML](https://html.spec.whatwg.org/) - Маркиращ език за описание и дизайн на уеб страници.
 * [CSS](https://www.w3.org/TR/CSS/#css) - Език за описание на представянето на HTML страници.
-* [Javascript](http://www.ecma-international.org/publications-and-standards/standards/ecma-262/) - Интерпретируем скриптов език за уеб програмиране.
+* [Javascript](http://www.ecma-international.org/publications-and-standards/standards/ecma-262/) - Интерпретиран език за уеб програмиране.
 * [SVG](https://www.w3.org/Graphics/SVG/) - Файлов формат за описание на векторни изображения.
 * [GIF](http://www.w3.org/Graphics/GIF/spec-gif89a.txt) - Файлов формат за съхранение на растерни изображения, позволяващ и те да бъдат анимирани.
-* [Python](https://www.python.org/) - Интерпретируем скриптов език.
-* [Bluetooth](https://www.bluetooth.com/) - Късообхватна безжична технология за PAN (Personal Area Networks), работеща в UHF (Ultra High Frequency) обхвата.
+* [Python](https://www.python.org/) - Интерпретиран скриптов език.
+* [Bluetooth](https://www.bluetooth.com/) - Късообхватна безжична технология за PAN (Personal Area Networks), работеща в дециметровия честотен диапазон.
 * [C++](https://isocpp.org/) - Компилиран език за програмиране, често използван за програмиране на микроконтролерни системи Arduino.
 * [Arduino](https://www.arduino.cc/) - Готови микроконтролерни платки с процесори на Atmel, както и интегрираната среда за разработка, която позволява програмирането им.
 

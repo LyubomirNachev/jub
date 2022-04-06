@@ -1,4 +1,4 @@
-# Space Jub (задължително)
+# Space Jub
 
 ![Лого](readme_pics/logo.png)
 
